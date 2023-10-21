@@ -1,10 +1,10 @@
-use foxhole::{IntoResponse, Response, Resolve, ResolveGuard};
+use foxhole::{IntoResponse, Response, resolve::{Resolve, ResolveGuard}};
 use serde::{Serialize, Deserialize};
 
 pub struct Json<T>(pub T);
 
 impl<T> IntoResponse for Json<T> where T: Serialize {
-    fn response(self) -> foxhole::systems::RawResponse {
+    fn response(self) -> Response<Vec<u8>> {
         let json = serde_json::to_string(&self.0).unwrap();
 
         Response::builder()
@@ -37,7 +37,7 @@ pub struct CreatePost {
 impl<'a, T> Resolve<'a> for Body<T> where T: Deserialize<'a> + 'static {
     type Output = Self;
 
-    fn resolve(ctx: &'a foxhole::RequestState, _path_iter: &mut foxhole::PathIter) -> foxhole::ResolveGuard<Self::Output> {
+    fn resolve(ctx: &'a foxhole::RequestState, _path_iter: &mut foxhole::PathIter) -> ResolveGuard<Self::Output> {
         let Ok(s) = std::str::from_utf8(ctx.request.body().get()) else {
             return ResolveGuard::None;
         };

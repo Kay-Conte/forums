@@ -68,7 +68,7 @@ dependencies = [
 [[package]]
 name = "foxhole"
 version = "0.3.0"
-source = "git+http://github.com/kay-conte/foxhole-rs#cc3fe9a99407bc950b63668f6f60e2fd5c00159f"
+source = "git+http://github.com/kay-conte/foxhole-rs?rev=5c62bc1#5c62bc14edf3ce4e1c5e654f1f4b84d57bb6bd2f"
 dependencies = [
  "http",
 ]
