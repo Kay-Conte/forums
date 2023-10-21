@@ -95,7 +95,7 @@ fn get_posts(_g: Get, UrlPart(amount): UrlPart, _e: Endpoint, Query(db): Query<D
     Some(Json(posts))
 }
 
-fn create_post(_p: resolve::Post, Body(mut body): Body<CreatePost>, _e: Endpoint, Query(db): Query<Database>, Query(counter): Query<Counter>) -> u16 {
+fn create_post(_p: resolve::Post, Body(body): Body<CreatePost>, _e: Endpoint, Query(db): Query<Database>, Query(counter): Query<Counter>) -> u16 {
     println!("Invalid input: {}, {}", body.title, body.content);
 
     let Ok(db) = db.lock() else {
@@ -169,5 +169,5 @@ fn main() {
     cache.insert::<Database>(Database::new(root_path().join("db")));
     cache.insert::<Counter>(Counter::new());
 
-    run_with_cache("0.0.0.0:8080", router, cache);
+    run_with_cache("0.0.0.0:8899", router, cache);
 }
