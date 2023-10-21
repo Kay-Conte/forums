@@ -1,6 +1,12 @@
 let card_list = document.getElementById("card-list");
 
 function add_card(id, title, content) {
+  let content = "";
+
+  for (let row of content.split("\n")) {
+    content += `<p>${row}</p>`
+  }
+
   card_list.innerHTML+= 
   `<li class="pure-menu-item pure-menu-link card ">
     <div class="card-title">
@@ -11,12 +17,6 @@ function add_card(id, title, content) {
     <div class="card-content">
     </div>
   </li>`;
-
-  let div = card_list.querySelector(".card-content");
-
-  for (let row of content.split("\n")) {
-    div.innerHTML += `<p>${row}</p>`
-  }
 }
 
 async function refresh_posts() {
