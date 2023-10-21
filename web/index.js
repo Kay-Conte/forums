@@ -9,9 +9,14 @@ function add_card(id, title, content) {
       </a>
     </div>
     <div class="card-content">
-      ${content}
     </div>
-  </li>`
+  </li>`;
+
+  let div = card_list.querySelector(".card-content");
+
+  for (let row of content.split("\n")) {
+    div.innerHTML += `<p>${row}</p>`
+  }
 }
 
 async function refresh_posts() {

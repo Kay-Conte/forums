@@ -26,11 +26,12 @@ root, html, body {
   box-sizing: border-box;
 
   overflow-x: hidden;
-
+  overflow-y: hidden;
 
   padding: 10px;
 
   min-height: 75px;
+  max-height: 150px;
   width: 100%;
 
   display: flex;
@@ -51,6 +52,10 @@ root, html, body {
 
 .card-content {
   color: #777
+}
+
+.card-content > p {
+  margin: 5px 0;
 }
 
 .card-list {
