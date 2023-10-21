@@ -16,3 +16,7 @@
 .card-content {
   color: #777
 }
+
+.card-content > p {
+  margin: 5px 0;
+}

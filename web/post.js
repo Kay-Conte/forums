@@ -10,7 +10,13 @@ async function load_post() {
   post_container.innerHTML += 
    `<div class="card-title">${post.title}</div>
     <br></br>
-    <div class="card-content">${post.content}</div>`;
+    <div class="card-content"></div>`;
+
+  let div = post_container.querySelector(".card-content");
+
+  for (let row of post.content.split("\n")) {
+    div.innerHTML += `<p>${row}</p>`
+  }
 }
 
 load_post()

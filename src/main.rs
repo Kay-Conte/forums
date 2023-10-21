@@ -96,14 +96,11 @@ fn get_posts(_g: Get, UrlPart(amount): UrlPart, _e: Endpoint, Query(db): Query<D
 }
 
 fn create_post(_p: resolve::Post, Body(body): Body<CreatePost>, _e: Endpoint, Query(db): Query<Database>, Query(counter): Query<Counter>) -> u16 {
-    println!("Invalid input: {}, {}", body.title, body.content);
-
     let Ok(db) = db.lock() else {
         return 500;
     };
 
     if body.content.contains(['<', '>']) || body.title.contains(['<', '>']) {
-        println!("Invalid input: {}, {}", body.title, body.content);
         return 400;
     }
 
