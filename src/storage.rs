@@ -1,31 +1,49 @@
-use std::{collections::HashMap, sync::{Arc, RwLock}};
+use std::{sync::{Arc, Mutex, RwLock}, path::Path};
 
 use foxhole::type_cache::TypeCacheKey;
+use rusqlite::Connection;
 
-use crate::models::{Post, UserId, User};
+type Shared<T> = Arc<RwLock<T>>;
 
-pub struct Forum(pub HashMap<String, Vec<Post>>);
-
-impl TypeCacheKey for Forum {
-    type Value = Arc<RwLock<Forum>>;
+fn shared<T>(t: T) -> Arc<RwLock<T>> {
+    Arc::new(RwLock::new(t))
 }
 
-pub struct Auth(pub HashMap<String, UserId>);
+pub struct Counter(usize);
 
-impl TypeCacheKey for Auth {
-    type Value = Arc<RwLock<Auth>>;
+impl Counter {
+    pub fn new() -> Shared<Self> {
+        shared(Self(0))
+    }
+    
+    pub fn next(&mut self) -> usize {
+        self.0 += 1;
+
+        self.0
+    }
 }
 
-pub struct Users(pub HashMap<UserId, User>);
-
-impl TypeCacheKey for Users {
-    type Value = Arc<RwLock<Users>>;
+impl TypeCacheKey for Counter {
+    type Value = Shared<Counter>;
 }
 
-pub struct Posts(pub Vec<Post>);
+pub struct Database;
 
-impl TypeCacheKey for Posts {
-    type Value = Arc<RwLock<Posts>>;
+impl Database {
+    pub fn new(path: impl AsRef<Path>) -> Arc<Mutex<Connection>> {
+        let conn = Connection::open(path).unwrap();
+
+        let _ = conn.execute(
+            "CREATE TABLE IF NOT EXISTS posts (
+                id INTEGER PRIMARY KEY,
+                title TEXT NOT NULL,
+                content TEXT
+            )", ());
+
+        Arc::new(Mutex::new(conn))
+    }
 }
 
-
+impl TypeCacheKey for Database {
+    type Value = Arc<Mutex<Connection>>;
+}

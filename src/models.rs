@@ -17,19 +17,11 @@ impl<T> IntoResponse for Json<T> where T: Serialize {
 }
 
 #[derive(Serialize, Debug, Clone, PartialEq, Eq, Hash)]
-pub struct UserId(pub String);
-
-#[derive(Serialize, Clone)]
-pub struct User {
-    pub name: String,
-}
-
-#[derive(Serialize, PartialEq, Eq, Hash)]
 pub struct PostId(pub u64);
 
 #[derive(Serialize, Debug, Clone)]
 pub struct Post {
-    pub user_id: UserId,
+    pub id: PostId,
     pub title: String,
     pub content: String,
 }

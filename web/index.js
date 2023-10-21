@@ -1,10 +1,12 @@
 let card_list = document.getElementById("card-list");
 
-function add_card(title, content) {
+function add_card(id, title, content) {
   card_list.innerHTML+= 
   `<li class="pure-menu-item pure-menu-link card ">
     <div class="card-title">
-      ${title}
+      <a href='/post/${id}'>
+        ${title}
+      </a>
     </div>
     <div class="card-content">
       ${content}
@@ -18,7 +20,7 @@ async function refresh_posts() {
   let json = await response.json();
 
   for (let post of json) {
-    add_card(post.title, post.content)
+    add_card(post.id, post.title, post.content)
   }
 }
 

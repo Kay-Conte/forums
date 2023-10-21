@@ -1,0 +1,18 @@
+.post-container {
+  padding: 0 40px;
+
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+} 
+
+.card-title {
+  font-size: 1.4em;
+
+  color: black;
+}
+
+.card-content {
+  color: #777
+}

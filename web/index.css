@@ -27,6 +27,7 @@ root, html, body {
 
   overflow-x: hidden;
 
+
   padding: 10px;
 
   min-height: 75px;
@@ -44,6 +45,12 @@ root, html, body {
 
 .card-title {
   font-size: 1.2em;
+
+  color: black;
+}
+
+.card-content {
+  color: #777
 }
 
 .card-list {
