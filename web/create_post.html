@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <link rel="stylesheet" href="/web/style.css">
+    <link rel="stylesheet" href="/web/create_post.css">
+  </head>
+  <body>
+    <div class="base main-column">
+      <div class="pure-menu pure-menu-horizontal navbar">
+        <div class="pure-menu-heading title">Foxhole</div>
+        <ul class="pure-menu-list">
+          <li class="pure-menu-item"><a href="/web/index.html" class="pure-menu-link">Posts</a></li>
+          <li class="pure-menu-item"><a href="/web/login.html" class="pure-menu-link">Login</a></li>
+        </ul>
+      </div>
+      <form id="post-form" class="pure-form">
+          <input type="text" id="post-title" class="pure-input-1" placeholder="Title" />
+          <textarea id="post-content" class="pure-input-1" placeholder="Content" rows="8"></textarea>
+          <button type="submit" class="pure-button button-success">Create</button>
+      </form>
+    </div>
+    <script src="/web/create_post.js"></script>
+  </body>
+</html>

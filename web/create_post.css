@@ -1,0 +1,16 @@
+textarea {
+  resize: none;
+}
+
+form {
+  width: 80%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+form button {
+  align-self: end;
+}

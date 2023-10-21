@@ -1,0 +1,67 @@
+root, html, body {
+  width: 100%;
+}
+
+.base {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.main-column {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+
+  padding: 10px;
+
+  min-height: 75px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  border: 1px solid inset;
+
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.card-title {
+  font-size: 1.2em;
+}
+
+.card-list {
+  width: 80%;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+}
+
+.group-horizontal {
+  display: flex;
+  flex-direction: row;
+
+  gap: 10px;
+}
