@@ -78,7 +78,7 @@ fn get_posts(_g: Get, UrlPart(amount): UrlPart, _e: Endpoint, Query(db): Query<D
     let amount = amount.parse::<usize>().ok()?;
     let db = db.lock().ok()?;
 
-    let mut stmt = db.prepare("SELECT id, title, content FROM posts LIMIT ?1").ok()?;
+    let mut stmt = db.prepare("SELECT id, title, content FROM posts ORDER BY id DESC LIMIT ?1").ok()?;
 
     let mut query = stmt.query([amount]).ok()?;
 
@@ -162,5 +162,5 @@ fn main() {
     cache.insert::<Database>(Database::new(root_path().join("db")));
     cache.insert::<Counter>(Counter::new());
 
-    run_with_cache("0.0.0.0:8899", router, cache);
+    run_with_cache("0.0.0.0:8080", router, cache);
 }
