@@ -3,21 +3,24 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
-    <link rel="stylesheet" href="/web/style.css">
-    <link rel="stylesheet" href="/web/post.css">
+    <link rel="stylesheet" href="/web/style/style.css">
+    <link rel="stylesheet" href="/web/style/index.css">
   </head>
   <body>
-    <div class="base main-column">
+    <div class="base">
       <div class="pure-menu pure-menu-horizontal navbar">
         <div>
           <div class="pure-menu-heading title">Foxhole</div>
           <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected"><a href="/web/index.html" class="pure-menu-link">Posts</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="/" class="pure-menu-link">Posts</a></li>
           </ul>
         </div>
+        <button id="new-post" class="pure-button button-success">New Post</button>
       </div>
-      <div id="post-container"></div>
+      <div class="main-column">
+        <ul id="card-list" class="pure-menu pure-menu-vertical card-list"></ul>
+      </div>
     </div>
-    <script src="/web/post.js"></script>
+    <script src="/web/js/post.js"></script>
   </body>
 </html>

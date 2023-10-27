@@ -36,8 +36,9 @@ impl Database {
         let _ = conn.execute(
             "CREATE TABLE IF NOT EXISTS posts (
                 id INTEGER PRIMARY KEY,
+                parent INTEGER NOT NULL,
                 title TEXT NOT NULL,
-                content TEXT
+                content TEXT NOT NULL
             )", ());
 
         Arc::new(Mutex::new(conn))

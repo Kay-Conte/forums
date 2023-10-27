@@ -1,10 +1,13 @@
 let card_list = document.getElementById("card-list");
+let new_post_button = document.getElementById("new-post");
+
+let id = window.location.href.split("/").pop();
 
 function add_card(id, title, content) {
-  let content = "";
+  let c = "";
 
   for (let row of content.split("\n")) {
-    content += `<p>${row}</p>`
+    c += `<p>${row}</p>`
   }
 
   card_list.innerHTML+= 
@@ -15,12 +18,13 @@ function add_card(id, title, content) {
       </a>
     </div>
     <div class="card-content">
+      ${c}
     </div>
   </li>`;
 }
 
 async function refresh_posts() {
-  let response = await fetch("/api/getPosts/50")
+  let response = await fetch(`/api/getPosts/${id}`)
   
   let json = await response.json();
 
@@ -30,3 +34,7 @@ async function refresh_posts() {
 }
 
 refresh_posts()
+
+new_post_button.addEventListener("click", () => {
+  window.location.href = `/createPost/${id}`;
+})

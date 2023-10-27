@@ -22,6 +22,7 @@ pub struct PostId(pub u64);
 #[derive(Serialize, Debug, Clone)]
 pub struct Post {
     pub id: PostId,
+    pub parent: usize,
     pub title: String,
     pub content: String,
 }

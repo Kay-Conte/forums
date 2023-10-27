@@ -55,47 +55,42 @@ fn post(_get: Get, _post_id: UrlPart, _e: Endpoint) -> Option<Html> {
     Some(Html(s))
 }
 
-fn get_post(_get: Get, UrlPart(post_id): UrlPart, _e: Endpoint, Query(db): Query<Database>) -> Option<Json<Post>> {
-    let post_id = post_id.parse::<u64>().ok()?;
-    let db = db.lock().ok()?;
+fn create_post_page(_get: Get, _post_id: UrlPart, _e: Endpoint) -> Option<Html> {
+    let path = root_path().join("create_post.html");
 
-    let mut stmt = db.prepare("SELECT id, title, content FROM posts WHERE id = ?1").ok()?;
+    let mut file = File::open(path).ok()?;
 
-    let mut query = stmt.query([post_id]).ok()?;
-    
-    let row = query.next().ok().flatten()?;
+    let mut s = String::new();
 
-    let post = Post {
-        id: PostId(row.get(0).ok()?),
-        title: row.get(1).ok()?,
-        content: row.get(2).ok()?,
-    };
+    file.read_to_string(&mut s).ok()?;
 
-    Some(Json(post))
+    Some(Html(s))
 }
 
-fn get_posts(_g: Get, UrlPart(amount): UrlPart, _e: Endpoint, Query(db): Query<Database>) -> Option<Json<Vec<Post>>> {
-    let amount = amount.parse::<usize>().ok()?;
+fn get_posts(_g: Get, UrlPart(root): UrlPart, _e: Endpoint, Query(db): Query<Database>) -> Option<Json<Vec<Post>>> {
+
     let db = db.lock().ok()?;
 
-    let mut stmt = db.prepare("SELECT id, title, content FROM posts ORDER BY id DESC LIMIT ?1").ok()?;
+    let mut stmt = db.prepare("SELECT id, parent, title, content FROM posts WHERE id = ?1 OR parent = ?1 ORDER BY id").ok()?;
 
-    let mut query = stmt.query([amount]).ok()?;
+    let root = root.parse::<usize>().ok()?;
+    let mut query = stmt.query([root]).ok()?;
 
     let mut posts = Vec::new();
 
     while let Some(post) = query.next().ok()? {
         posts.push(Post {
             id: PostId(post.get(0).ok()?),
-            title: post.get(1).ok()?,
-            content: post.get(2).ok()?,
+            parent: post.get(1).ok()?,
+            title: post.get(2).ok()?,
+            content: post.get(3).ok()?,
         });
     }
 
     Some(Json(posts))
 }
 
-fn create_post(_p: resolve::Post, Body(body): Body<CreatePost>, _e: Endpoint, Query(db): Query<Database>, Query(counter): Query<Counter>) -> u16 {
+fn create_post(_p: resolve::Post, UrlPart(root): UrlPart, Body(body): Body<CreatePost>, _e: Endpoint, Query(db): Query<Database>, Query(counter): Query<Counter>) -> u16 {
     let Ok(db) = db.lock() else {
         return 500;
     };
@@ -106,7 +101,7 @@ fn create_post(_p: resolve::Post, Body(body): Body<CreatePost>, _e: Endpoint, Qu
 
     let new_id = counter.write().unwrap().next();
 
-    if db.execute("INSERT INTO posts (id, title, content) VALUES (?1, ?2, ?3)", (new_id, body.title, body.content)).is_err() {
+    if db.execute("INSERT INTO posts (id, parent, title, content) VALUES (?1, ?2, ?3, ?4)", (new_id, root, body.title, body.content)).is_err() {
         return 500;
     }
 
@@ -153,11 +148,11 @@ fn root(_get: Get, _e: Endpoint) -> Option<Html> {
 fn main() {
     let router = Route::new(sys![root])
         .route("post", sys![post])
+        .route("createPost", sys![create_post_page])
         .route("web", sys![web]).route(
         "api",
         Route::empty()
             .route("getPosts", sys![get_posts])
-            .route("getPost", sys![get_post])
             .route("createPost", sys![create_post])
     );
 
@@ -166,5 +161,5 @@ fn main() {
     cache.insert::<Database>(Database::new(root_path().join("db")));
     cache.insert::<Counter>(Counter::new());
 
-    run_with_cache("0.0.0.0:8899", router, cache);
+    run_with_cache("0.0.0.0:8080", router, cache);
 }

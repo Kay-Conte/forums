@@ -21,8 +21,6 @@ root, html, body {
 }
 
 .card {
-  width: 100%;
-
   box-sizing: border-box;
 
   overflow-x: hidden;
@@ -31,13 +29,12 @@ root, html, body {
   padding: 10px;
 
   min-height: 75px;
-  max-height: 150px;
   width: 100%;
 
   display: flex;
   flex-direction: column;
 
-  gap: 8px;
+  gap: 16px;
 
   border: 1px solid inset;
 
@@ -51,11 +48,20 @@ root, html, body {
 }
 
 .card-content {
-  color: #777
+  color: #777;
+
+  white-space: normal;
+
+  display: inline-block;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .card-content > p {
-  margin: 5px 0;
+  margin: 0;
+
+  overflow-wrap: break-word;
 }
 
 .card-list {
@@ -68,7 +74,6 @@ root, html, body {
   flex-direction: column;
 
   gap: 8px;
-
 }
 
 .group-horizontal {
